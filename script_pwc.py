@@ -36,8 +36,8 @@ def flow2rgb(flow_map_np, max_value=None):
     rgb = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
     return rgb
 
-im1_fn = 'data/input4_1.jpg';
-im2_fn = 'data/input4_2.jpg';
+im1_fn = 'data/input6_1.jpg';
+im2_fn = 'data/input6_2.jpg';
 flow_fn = 'data/frame_0010.flo';
 
 if len(sys.argv) > 1:
@@ -93,4 +93,4 @@ flo = flo.cpu().data.numpy()
 # writeFlowFile(flow_fn, flo)
 rgb_flow = flow2rgb(flo)
 # Image.fromarray(rgb_flow, 'RGB').show()
-cv2.imwrite('data/rgb_flow4_1.png', rgb_flow)
+cv2.imwrite('data/rgb_flow6_1.png', rgb_flow)
