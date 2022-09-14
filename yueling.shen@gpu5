@@ -1,0 +1,32 @@
+
+# Prepare target env
+CONTAINER_DISPLAY="0"
+CONTAINER_HOSTNAME="syl_l4e_sz"
+DISPLAY_FLOADER="display_sz_l4e"
+
+# Create a directory for the socket
+mkdir -p ${DISPLAY_FLOADER}/socket
+touch ${DISPLAY_FLOADER}/Xauthority
+
+# Get the DISPLAY slot
+DISPLAY_NUMBER=$(echo $DISPLAY | cut -d. -f1 | cut -d: -f2)
+
+# Extract current authentication cookie
+AUTH_COOKIE=$(xauth list | grep "^$(hostname)/unix:${DISPLAY_NUMBER} " | awk '{print $3}')
+
+# Create the new X Authority file
+xauth -f ${DISPLAY_FLOADER}/Xauthority add ${CONTAINER_HOSTNAME}/unix:${CONTAINER_DISPLAY} MIT-MAGIC-COOKIE-1 ${AUTH_COOKIE}
+
+# Proxy with the :0 DISPLAY
+socat UNIX-LISTEN:${DISPLAY_FLOADER}/socket/X${CONTAINER_DISPLAY},fork TCP4:localhost:60${DISPLAY_NUMBER} &
+
+# Launch the container
+docker run -d --name ${CONTAINER_HOSTNAME}\
+  -e DISPLAY=:${CONTAINER_DISPLAY} \
+  -e XAUTHORITY=/tmp/.Xauthority \
+  -v ${PWD}/${DISPLAY_FLOADER}/socket:/tmp/.X11-unix \
+  -v ${PWD}/${DISPLAY_FLOADER}/Xauthority:/tmp/.Xauthority \
+  -v /mnt:/mnt  -v /home/yueling.shen:/home/yueling.shen \
+  --workdir /home/yueling.shen --runtime=nvidia \
+  --hostname ${CONTAINER_HOSTNAME} \
+  -it 6f2023b178ef /bin/bash
