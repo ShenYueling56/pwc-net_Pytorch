@@ -81,13 +81,13 @@ flo = net(im_all)
 flo = flo[0] * 20.0
 flo = flo.cpu().data.numpy()
 
-# scale the flow back to the input size 
-flo = np.swapaxes(np.swapaxes(flo, 0, 1), 1, 2) # 
-u_ = cv2.resize(flo[:,:,0],(W,H))
-v_ = cv2.resize(flo[:,:,1],(W,H))
-u_ *= W/ float(W_)
-v_ *= H/ float(H_)
-flo = np.dstack((u_,v_))
+# # scale the flow back to the input size
+# flo = np.swapaxes(np.swapaxes(flo, 0, 1), 1, 2) #
+# u_ = cv2.resize(flo[:,:,0],(W,H))
+# v_ = cv2.resize(flo[:,:,1],(W,H))
+# u_ *= W/ float(W_)
+# v_ *= H/ float(H_)
+# flo = np.dstack((u_,v_))
 
 # import ipdb; ipdb.set_trace()
 # writeFlowFile(flow_fn, flo)
