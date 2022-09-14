@@ -28,7 +28,6 @@ class CorrelationFunction(Function):
 
         return output
 
-    @staticmethod
     def backward(self, grad_output):
         input1, input2 = self.saved_tensors
 
