@@ -36,8 +36,8 @@ def flow2rgb(flow_map_np, max_value=None):
     rgb = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
     return rgb
 
-im1_fn = 'data/input7_1.jpg';
-im2_fn = 'data/input7_2.jpg';
+im1_fn = 'data/input7_1.png';
+im2_fn = 'data/input7_2.png';
 flow_fn = 'data/frame_0010.flo';
 
 if len(sys.argv) > 1:
