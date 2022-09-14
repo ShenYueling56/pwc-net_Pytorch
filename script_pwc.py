@@ -26,6 +26,15 @@ def writeFlowFile(filename,uv):
 		f.write(H.tobytes())
 		f.write(uv.tobytes())
 
+def flow2rgb(flow_map_np, max_value=None):
+    _, h, w = flow_map_np.shape
+    hsv = np.ones((h,w,3), dtype=np.uint8)
+    hsv[..., 1] = 255
+    mag, ang = cv2.cartToPolar(flow_map_np[0].squeeze(), flow_map_np[1].squeeze())
+    hsv[..., 0] = ang / (2 * np.pi) * 180
+    hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
+    rgb = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+    return rgb
 
 im1_fn = 'data/frame_0010.png';
 im2_fn = 'data/frame_0011.png';
@@ -81,4 +90,7 @@ v_ *= H/ float(H_)
 flo = np.dstack((u_,v_))
 
 # import ipdb; ipdb.set_trace()
-writeFlowFile(flow_fn, flo)
+# writeFlowFile(flow_fn, flo)
+rgb_flow = flow2rgb(flo)
+# Image.fromarray(rgb_flow, 'RGB').show()
+cv2.imwrite('data/rgb_flow.png', rgb_flow)
