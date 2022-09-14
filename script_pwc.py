@@ -80,5 +80,5 @@ u_ *= W/ float(W_)
 v_ *= H/ float(H_)
 flo = np.dstack((u_,v_))
 
-import ipdb; ipdb.set_trace()
+# import ipdb; ipdb.set_trace()
 writeFlowFile(flow_fn, flo)
