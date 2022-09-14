@@ -29,7 +29,7 @@ def writeFlowFile(filename,uv):
 
 im1_fn = 'data/frame_0010.png';
 im2_fn = 'data/frame_0011.png';
-flow_fn = './tmp/frame_0010.flo';
+flow_fn = 'data/frame_0010.flo';
 
 if len(sys.argv) > 1:
     im1_fn = sys.argv[1]
